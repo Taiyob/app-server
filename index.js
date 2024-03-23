@@ -24,7 +24,7 @@ async function run() {
     await client.connect();
     const userCollection = client.db("userCollections").collection("user");
 
-    app.get("/api/add-user", async(req, res) => {
+    app.get("/api/add-user", async (req, res) => {
       try {
         const userData = await userCollection.find().toArray();
         console.log(userData);
@@ -39,6 +39,21 @@ async function run() {
       console.log("Request body:", req.body);
       const body = req.body;
       const result = await userCollection.insertOne(body);
+      res.send(result);
+    });
+
+    app.patch("/api/add-user", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      console.log(filter);
+      const updateDoc = {
+        $set: {
+          name: user.name,
+          password: user.password,
+          phone: user.phone,
+        },
+      };
+      const result = await userCollection.updateOne(filter, updateDoc);
       res.send(result);
     });
 
