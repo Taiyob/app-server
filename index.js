@@ -57,6 +57,23 @@ async function run() {
       res.send(result);
     });
 
+    app.post("/api/login", async (req, res) => {
+      const { email, password } = req.body;
+
+      try {
+        const user = await userCollection.findOne({ email, password });
+
+        if (user) {
+          res.send({ message: "Login Success", user: user });
+        } else {
+          res.status(401).send({ message: "Invalid email or password" });
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+        res.status(500).send({ message: "Internal server error" });
+      }
+    });
+
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
