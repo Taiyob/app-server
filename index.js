@@ -15,9 +15,9 @@ const secretKey = "your_secret_key";
 const uri =
   "mongodb+srv://api_connection:I7ThSCgOw5UFg2IA@cluster0.9bycbcd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-const client = new MongoClient(uri, {
+const client = new MongoClient(uri, { 
   serverApi: {
-    version: ServerApiVersion.v1,
+    version: ServerApiVersion.v1, 
     strict: true,
     deprecationErrors: true,
   },
@@ -27,7 +27,7 @@ async function run() {
   try {
     await client.connect();
     const userCollection = client.db("userCollections").collection("user");
-
+    
     // Middleware to verify JWT token
     function authenticateToken(req, res, next) {
       const token = req.headers["authorization"];
@@ -123,11 +123,14 @@ async function run() {
 
     app.listen(port, () => {
       console.log(`Example app listening on port ${port}`);
+      console.log('This is api station for data fetching.');
     });
-  } finally {
-    //await client.close();
-  }
+  } finally {}
 }
-run().catch(console.dir);
+run().catch(console.dir);    
 
 // http://192.168.0.104:5000/api/add-user
+
+// TODO: 1. set up firebase storage
+// TODO: 2. pick new image/videos from gallery and put into firebase storage
+// TODO: 3. show list of images from storage in gridview 
